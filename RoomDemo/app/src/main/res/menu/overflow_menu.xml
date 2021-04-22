@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/show_all"
+        android:title="Show all Contacts" />
+
+    <item android:id="@+id/add_contact"
+        android:title="Add Contact" />
+
+    <item android:id="@+id/find_contact"
+        android:title="Find Contact" />
+
+    <item android:id="@+id/sort_az"
+        android:title="Sort Contacts A-Z" />
+
+    <item android:id="@+id/sort_za"
+        android:title="Sort Contact Z-A" />
+
+</menu>
