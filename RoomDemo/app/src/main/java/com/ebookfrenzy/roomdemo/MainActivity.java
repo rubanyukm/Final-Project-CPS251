@@ -6,10 +6,17 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ebookfrenzy.roomdemo.ui.main.MainFragment;
 import com.ebookfrenzy.roomdemo.ui.main.MainViewModel;
@@ -54,15 +61,46 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        mViewModel = ViewModelProviders.of(this).get(MainViewModel .class);
-
         switch (item.getItemId()) {
+            case R.id.add_contact:
+                if(mf.getName().equals("")) {
+                    showToast("Enter a contact name");
+                }
+                else if(mf.getPhone().equals("")) {
+                    showToast("Enter a contact phone number");
+                }
+                else {
+                    mf.addContact();
+                }
+                return true;
+
             case R.id.show_all:
                 return true;
 
             case R.id.find_contact:
+                mf.findName();
                 return true;
+
+            case R.id.sort_az:
+                mf.sortContactAZ();
+                return true;
+
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void showToast(String txt) {
+        LayoutInflater inflater = getLayoutInflater();
+        View layout = inflater.inflate(R.layout.toast_layout, (ViewGroup) findViewById(R.id.toast_root));
+        TextView toastText = layout.findViewById(R.id.toast_text);
+        ImageView toastImage = layout.findViewById(R.id.toast_image);
+        toastText.setText(txt);
+        toastImage.setImageResource(R.drawable.ic_toasticon);
+
+        Toast toast = new Toast(getApplicationContext());
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.setDuration(Toast.LENGTH_LONG);
+        toast.setView(layout);
+        toast.show();
     }
 }

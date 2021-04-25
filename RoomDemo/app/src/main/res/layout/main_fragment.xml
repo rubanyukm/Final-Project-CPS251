@@ -30,7 +30,7 @@
                 android:textSize="18sp" />
 
             <EditText
-                android:id="@+id/productName"
+                android:id="@+id/contactName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -50,7 +50,7 @@
                 android:textSize="18sp" />
 
             <EditText
-                android:id="@+id/productQuantity"
+                android:id="@+id/contactPhone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"

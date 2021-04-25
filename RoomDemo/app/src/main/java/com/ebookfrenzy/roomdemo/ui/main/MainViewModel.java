@@ -1,44 +1,44 @@
 package com.ebookfrenzy.roomdemo.ui.main;
 
-import androidx.lifecycle.ViewModel;
-
 import android.app.Application;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.ebookfrenzy.roomdemo.Product;
-import com.ebookfrenzy.roomdemo.ProductRepository;
+import com.ebookfrenzy.roomdemo.Contact;
+import com.ebookfrenzy.roomdemo.ContactRepository;
 
 import java.util.List;
 
 public class MainViewModel extends AndroidViewModel {
 
-    private ProductRepository repository;
-    private LiveData<List<Product>> allProducts;
-    private MutableLiveData<List<Product>> searchResults;
+    private ContactRepository repository;
+    private LiveData<List<Contact>> allContacts;
+    private List<Contact> alphaSort;
+    private MutableLiveData<List<Contact>> searchResults;
 
     public MainViewModel(Application application) {
         super(application);
-        repository = new ProductRepository(application);
-        allProducts = repository.getAllProducts();
+        repository = new ContactRepository(application);
+        allContacts = repository.getAllContacts();
         searchResults = repository.getSearchResults();
+        alphaSort = repository.sortAZ();
     }
 
-    public MutableLiveData<List<Product>> getSearchResults() {
+    public MutableLiveData<List<Contact>> getSearchResults() {
         return searchResults;
     }
-    public LiveData<List<Product>> getAllProducts() {
-        return allProducts;
+    public LiveData<List<Contact>> getAllContacts() {
+        return allContacts;
     }
-    public void insertProduct(Product product) {
-        repository.insertProduct(product);
+    public void insertContact(Contact contact) {
+        repository.insertContact(contact);
     }
-    public void findProduct(String name) {
-        repository.findProduct(name);
+    public void findContact(String name) {
+        repository.findContact(name);
     }
-    public void deleteProduct(String name) {
-        repository.deleteProduct(name);
-    }
+    public void deleteContact(String name) { repository.deleteContact(name);}
+    public List<Contact> sortAZ() { return alphaSort;}
+
 }

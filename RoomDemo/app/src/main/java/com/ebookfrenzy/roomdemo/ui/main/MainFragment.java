@@ -2,24 +2,20 @@ package com.ebookfrenzy.roomdemo.ui.main;
 
 import androidx.lifecycle.ViewModelProviders;
 
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.ebookfrenzy.roomdemo.ProductListAdapter;
+import com.ebookfrenzy.roomdemo.Contact;
+import com.ebookfrenzy.roomdemo.MainActivity;
+import com.ebookfrenzy.roomdemo.ContactListAdapter;
 
 import android.os.Bundle;
 
 import android.widget.Button;
 
-import com.ebookfrenzy.roomdemo.Product;
-
 import androidx.lifecycle.Observer;
 
 import java.util.List;
-import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,10 +33,11 @@ import com.ebookfrenzy.roomdemo.R;
 public class MainFragment extends Fragment {
 
     private MainViewModel mViewModel;
-    private ProductListAdapter adapter;
+    private ContactListAdapter adapter;
     private TextView productId;
-    private EditText productName;
-    private EditText productQuantity;
+    private EditText contactName;
+    private EditText contactPhone;
+    private MainActivity ma = new MainActivity();
 
     public static MainFragment newInstance() {
         return new MainFragment();
@@ -57,8 +54,8 @@ public class MainFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
         //productId = getView().findViewById(R.id.productID);
-        productName = getView().findViewById(R.id.productName);
-        productQuantity = getView().findViewById(R.id.productQuantity);
+        contactName = getView().findViewById(R.id.contactName);
+        contactPhone = getView().findViewById(R.id.contactPhone);
         listenerSetup();
         observerSetup();
         recyclerSetup();
@@ -71,11 +68,11 @@ public class MainFragment extends Fragment {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String name = productName.getText().toString();
-                String quantity = productQuantity.getText().toString();
+                String name = contactName.getText().toString();
+                String quantity = contactPhone.getText().toString();
                 if (!name.equals("") && !quantity.equals("")) {
-                    Product product = new Product(name, quantity.trim());
-                    mViewModel.insertProduct(product);
+                    Contact contact = new Contact(name, quantity.trim());
+                    mViewModel.insertContact(contact);
                     clearFields();
                 } /*else {
                     productId.setText("Incomplete information");
@@ -86,44 +83,82 @@ public class MainFragment extends Fragment {
         findButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mViewModel.findProduct(productName.getText().toString());
+                mViewModel.findContact(contactName.getText().toString());
             }
         });
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mViewModel.deleteProduct(productName.getText().toString());
+                mViewModel.deleteContact(contactName.getText().toString());
                 clearFields();
             }
         });
     }
 
+    public String getPhone() {
+        String phone = contactPhone.getText().toString();
+        return phone;
+    }
+
+    public String getName() {
+        String name = contactName.getText().toString();
+        return name;
+    }
+
+    public void findName() {
+        //String name = "%";
+        mViewModel.findContact(contactName.getText().toString());
+        clearFields();
+    }
+
+    public void deleteName() {
+        mViewModel.deleteContact(contactName.getText().toString());
+        clearFields();
+    }
+
+    public void addContact() {
+        String name = contactName.getText().toString();
+        String phone = contactPhone.getText().toString();
+        Contact contact = new Contact(name, phone.trim());
+        mViewModel.insertContact(contact);
+        clearFields();
+    }
+
+    public void sortContactAZ() {
+        mViewModel.sortAZ();
+        clearFields();
+    }
+
     private void observerSetup() {
-        mViewModel.getAllProducts().observe(getViewLifecycleOwner(),
-                new Observer<List<Product>>() {
+
+        mViewModel.getAllContacts().observe(getViewLifecycleOwner(),
+                new Observer<List<Contact>>() {
                     @Override
-                    public void onChanged(@Nullable final List<Product> products) {
-                        adapter.setProductList(products);
+                    public void onChanged(@Nullable final List<Contact> contacts) {
+                        adapter.setContactList(contacts);
                     }
                 });
+
         mViewModel.getSearchResults().observe(getViewLifecycleOwner(),
-                new Observer<List<Product>>() {
+                new Observer<List<Contact>>() {
                     @Override
-                    public void onChanged(@Nullable final List<Product> products) {
-                        if (products.size() > 0) {
-                            productId.setText(String.format(Locale.US, "%d", products.get(0).getId()));
-                            productName.setText(products.get(0).getName());
-                            productQuantity.setText(String.format(Locale.US, "%d", products.get(0).getQuantity()));
-                        } else {
-                            productId.setText("No Match");
-                        }
+                    public void onChanged(@Nullable final List<Contact> contacts) {
+
+                        if (contacts.size() > 0) {
+                            //productId.setText(String.format(Locale.US, "%d", products.get(0).getId()));
+                            contactName.setText(contacts.get(0).getName());
+                            //productQuantity.setText(String.format(Locale.US, "%d", products.get(0).getQuantity()));
+                            contactPhone.setText(contacts.get(0).getPhone());
+                        } //else {
+                            //productId.setText("No Match");
+                       // }
                     }
                 });
     }
 
     private void recyclerSetup() {
         RecyclerView recyclerView;
-        adapter = new ProductListAdapter(R.layout.product_list_item);
+        adapter = new ContactListAdapter(R.layout.product_list_item);
         recyclerView = getView().findViewById(R.id.product_recycler);
         recyclerView.setLayoutManager(new
                 LinearLayoutManager(getContext()));
@@ -132,8 +167,8 @@ public class MainFragment extends Fragment {
 
     private void clearFields() {
         //productId.setText("");
-        productName.setText("");
-        productQuantity.setText("");
+        contactName.setText("");
+        contactPhone.setText("");
     }
 
 }
