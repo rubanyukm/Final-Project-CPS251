@@ -83,7 +83,7 @@ public class MainFragment extends Fragment {
         findButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mViewModel.findContact(contactName.getText().toString());
+                mViewModel.getSearchResults();
             }
         });
         deleteButton.setOnClickListener(new View.OnClickListener() {
@@ -106,8 +106,8 @@ public class MainFragment extends Fragment {
     }
 
     public void findName() {
-        //String name = "%";
-        mViewModel.findContact(contactName.getText().toString());
+       // String name = "%";
+        mViewModel.findContact(getName());
         clearFields();
     }
 
@@ -158,7 +158,7 @@ public class MainFragment extends Fragment {
 
     private void recyclerSetup() {
         RecyclerView recyclerView;
-        adapter = new ContactListAdapter(R.layout.product_list_item);
+        adapter = new ContactListAdapter(R.layout.contact_list_item);
         recyclerView = getView().findViewById(R.id.product_recycler);
         recyclerView.setLayoutManager(new
                 LinearLayoutManager(getContext()));

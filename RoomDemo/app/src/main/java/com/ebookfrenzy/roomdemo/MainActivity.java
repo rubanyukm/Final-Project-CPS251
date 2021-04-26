@@ -78,7 +78,12 @@ public class MainActivity extends AppCompatActivity {
                 return true;
 
             case R.id.find_contact:
-                mf.findName();
+                if(mf.getName().equals("")) {
+                    showToast("Enter a contact name");
+                }
+                else {
+                    mf.findName();
+                }
                 return true;
 
             case R.id.sort_az:

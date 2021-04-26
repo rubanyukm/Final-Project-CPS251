@@ -10,7 +10,7 @@ public class ContactRepository {
 
     private MutableLiveData<List<Contact>> searchResults = new MutableLiveData<>();
     private LiveData<List<Contact>> allContacts;
-    private List<Contact> sortAZ;
+    private LiveData<List<Contact>> sortAZ;
     private ContactDao contactDao;
 
     public LiveData<List<Contact>> getAllContacts() {
@@ -21,9 +21,7 @@ public class ContactRepository {
         return searchResults;
     }
 
-    public List<Contact> sortAZ() {
-        return sortAZ;
-    }
+    public LiveData<List<Contact>> getSortAZ() { return sortAZ; }
 
     public ContactRepository(Application application) {
         ContactRoomDatabase db;
@@ -49,16 +47,14 @@ public class ContactRepository {
     }
 
     public void getAllContacts(String name ) {
-        QueryAsyncTask task = new QueryAsyncTask(contactDao);
-        task.delegate = this;
+        ShowAllAsyncTask task = new ShowAllAsyncTask(contactDao);
+        //task.delegate = this;
         task.execute(name);
     }
 
-    public void sortAZ(String name) {
-        QueryAsyncTask task = new QueryAsyncTask(contactDao);
-        task.delegate = this;
-        task.execute(name);
-    }
+   /* public void sortAZ() {
+        sortAZAsyncTask task = new sortAZAsyncTask(contactDao);
+    } */
 
     private void asyncFinished(List<Contact> results) {
         searchResults.setValue(results);
@@ -130,7 +126,7 @@ public class ContactRepository {
         }
     }
 
-    private static class sortAZAsyncTask extends AsyncTask<String, Void, Void> {
+   /* private static class sortAZAsyncTask extends AsyncTask<String, Void, Void> {
 
         private ContactDao asyncTaskDao;
 
@@ -143,5 +139,5 @@ public class ContactRepository {
             asyncTaskDao.sortAZ();
             return null;
         }
-    }
+    } */
 }

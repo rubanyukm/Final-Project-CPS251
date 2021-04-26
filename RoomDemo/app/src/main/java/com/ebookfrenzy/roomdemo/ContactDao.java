@@ -13,7 +13,7 @@ public interface ContactDao {
     @Insert
     void insertContact(Contact contact);
 
-    @Query("SELECT * FROM contacts WHERE contactName = :name")
+    @Query("SELECT * FROM contacts WHERE contactName LIKE '%' || :name || '%'")
     List<Contact> findContact(String name);
 
     @Query("DELETE FROM contacts WHERE contactName = :name")
@@ -23,5 +23,5 @@ public interface ContactDao {
     LiveData<List<Contact>> getAllContacts();
 
     @Query("SELECT * FROM contacts ORDER BY contactName ASC")
-    List<Contact> sortAZ();
+    LiveData<List<Contact>> sortAZ();
 }
