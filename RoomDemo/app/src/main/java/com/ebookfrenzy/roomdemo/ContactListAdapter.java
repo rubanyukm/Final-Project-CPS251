@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import com.ebookfrenzy.roomdemo.ui.main.MainFragment;
 import com.ebookfrenzy.roomdemo.ui.main.MainViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.ViewHolder> {
@@ -22,6 +23,7 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
     private final int productItemLayout;
     private List<Contact> contactList;
     MainFragment mf = new MainFragment();
+    public String na;
     String a = "";
 
     public ContactListAdapter(int layoutId) {
@@ -52,6 +54,7 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
         TextView Phone = holder.phone;
         ImageView Trash = holder.trash;
         Name.setText(contactList.get(listPosition).getName());
+        na = Name.getText().toString();
         Phone.setText(contactList.get(listPosition).getPhone());
 
         Trash.setOnClickListener(new View.OnClickListener(){
@@ -59,6 +62,14 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
                 mf.deleteName();
             }
         });
+    }
+
+    public List<Contact> getContactList() {
+        return contactList;
+    }
+
+    public String getText() {
+        return na;
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

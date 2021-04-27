@@ -15,6 +15,8 @@ import android.widget.Button;
 
 import androidx.lifecycle.Observer;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -95,6 +97,28 @@ public class MainFragment extends Fragment {
         });
     }
 
+    public void sortContactsDesc(){
+        Collections.sort(adapter.getContactList(), new Comparator<Contact>() {
+            @Override
+            public int compare(Contact o1, Contact o2) {
+                return o2.getName().toLowerCase().compareTo(o1.getName().toLowerCase());
+            }
+        });
+        adapter.notifyDataSetChanged();
+        clearFields();
+    }
+
+    public void sortContactsAsc(){
+        Collections.sort(adapter.getContactList(), new Comparator<Contact>() {
+            @Override
+            public int compare(Contact o1, Contact o2) {
+                return o1.getName().toLowerCase().compareTo(o2.getName().toLowerCase());
+            }
+        });
+        adapter.notifyDataSetChanged();
+        clearFields();
+    }
+
     public String getPhone() {
         String phone = contactPhone.getText().toString();
         return phone;
@@ -104,6 +128,7 @@ public class MainFragment extends Fragment {
         String name = contactName.getText().toString();
         return name;
     }
+
 
     public void findName() {
        // String name = "%";
@@ -121,11 +146,6 @@ public class MainFragment extends Fragment {
         String phone = contactPhone.getText().toString();
         Contact contact = new Contact(name, phone.trim());
         mViewModel.insertContact(contact);
-        clearFields();
-    }
-
-    public void sortContactAZ() {
-        mViewModel.sortAZ();
         clearFields();
     }
 

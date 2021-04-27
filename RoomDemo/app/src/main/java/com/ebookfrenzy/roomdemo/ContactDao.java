@@ -22,6 +22,4 @@ public interface ContactDao {
     @Query("SELECT * FROM contacts")
     LiveData<List<Contact>> getAllContacts();
 
-    @Query("SELECT * FROM contacts ORDER BY contactName ASC")
-    LiveData<List<Contact>> sortAZ();
 }

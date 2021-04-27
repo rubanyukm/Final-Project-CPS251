@@ -82,12 +82,16 @@ public class MainActivity extends AppCompatActivity {
                     showToast("Enter a contact name");
                 }
                 else {
-                    mf.findName();
+                    mf.getName();
                 }
                 return true;
 
             case R.id.sort_az:
-                mf.sortContactAZ();
+                mf.sortContactsAsc();
+                return true;
+
+            case R.id.sort_za:
+                mf.sortContactsDesc();
                 return true;
 
         }

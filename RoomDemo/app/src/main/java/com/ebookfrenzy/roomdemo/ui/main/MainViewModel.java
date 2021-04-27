@@ -23,7 +23,6 @@ public class MainViewModel extends AndroidViewModel {
         repository = new ContactRepository(application);
         allContacts = repository.getAllContacts();
         searchResults = repository.getSearchResults();
-        alphaSort = repository.getSortAZ();
     }
 
     public MutableLiveData<List<Contact>> getSearchResults() {
@@ -38,12 +37,5 @@ public class MainViewModel extends AndroidViewModel {
     public void findContact(String name) {
         repository.findContact(name);
     }
-    public void deleteContact(String name) {
-        repository.deleteContact(name);
-    }
-
-    public LiveData<List<Contact>> sortAZ() {
-        return alphaSort;
-    }
-
+    public void deleteContact(String name) { repository.deleteContact(name); }
 }
