@@ -58,36 +58,14 @@ public class MainFragment extends Fragment {
         //productId = getView().findViewById(R.id.productID);
         contactName = getView().findViewById(R.id.contactName);
         contactPhone = getView().findViewById(R.id.contactPhone);
-        listenerSetup();
+        //listenerSetup();
         observerSetup();
         recyclerSetup();
     }
 
-    private void listenerSetup() {
-        Button addButton = getView().findViewById(R.id.addButton);
-        Button findButton = getView().findViewById(R.id.findButton);
+     private void listenerSetup() {
         Button deleteButton = getView().findViewById(R.id.deleteButton);
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String name = contactName.getText().toString();
-                String quantity = contactPhone.getText().toString();
-                if (!name.equals("") && !quantity.equals("")) {
-                    Contact contact = new Contact(name, quantity.trim());
-                    mViewModel.insertContact(contact);
-                    clearFields();
-                } /*else {
-                    productId.setText("Incomplete information");
-                }*/
-            }
-        });
 
-        findButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mViewModel.getSearchResults();
-            }
-        });
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
